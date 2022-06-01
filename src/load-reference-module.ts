@@ -10,7 +10,7 @@ const loadReferenceModule = (
     return Promise.resolve(null);
   }
 
-  const { target } = referencedModule;
+  const { target, outputName } = referencedModule;
 
   const options: RollupOptions = {
     input: target,
@@ -19,7 +19,7 @@ const loadReferenceModule = (
 
   return rollup(options)
     .then((bundle) => {
-      return bundle.generate(state.options.outputOptions);
+      return bundle.generate({ ...state.options.outputOptions });
     })
     .then(({ output }) => {
       const chunk = output[0];
@@ -33,7 +33,7 @@ const loadReferenceModule = (
 
       referencedModule.outputChunk = chunk;
 
-      return 'some_path_relative_to_importer';
+      return `export default '${outputName}'`;
     })
     .catch(() => {
       return null;

@@ -43,7 +43,7 @@ const resolveReferenceModule = (state: State, source: string, importer?: string)
   const outputName = `reference-module-${path.basename(target, path.extname(target))}.js`;
   state.idMap.set(moduleID, { outputName, target });
 
-  return target;
+  return moduleID;
 };
 
 export default resolveReferenceModule;

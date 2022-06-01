@@ -31,13 +31,24 @@ function referenceModulePlugin(options?: Partial<RollupPluginReferenceModuleOpti
     },
 
     load: function (id: string) {
-      return loadReferenceModule(state, this.addWatchFile, id);
+      if (id?.startsWith('\0rollup-plugin-reference-module')) {
+        const referenceID = this.emitFile({
+          type: 'chunk',
+          id: id.split(':').pop() || '',
+        });
+
+        console.log('referenceID', referenceID)
+        return `export default import.meta.ROLLUP_FILE_URL_${referenceID};`;
+      }
+
+      return null;
+      // return loadReferenceModule(state, this.addWatchFile, id);
     },
 
     generateBundle(options, bundle, isWrite) {
       state.idMap.forEach(({ outputChunk }, id) => {
         if (outputChunk) {
-          bundle[id] = outputChunk;
+          // bundle[id] = outputChunk;
         }
       });
     },
