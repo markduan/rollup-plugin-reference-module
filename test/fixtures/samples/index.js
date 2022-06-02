@@ -2,6 +2,6 @@ import someModule from 'REF:./b';
 
 const a = 'a';
 
-console.log(someModule)
+console.log(someModule);
 
 export default a;

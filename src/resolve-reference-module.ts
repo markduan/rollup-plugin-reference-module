@@ -26,10 +26,8 @@ const resolveReferenceModule = (state: State, source: string, importer?: string)
   }
 
   const [, name] = match;
-  let target: null | string = null;
-  if (!importer) {
-    target = name;
-  } else {
+  let target: null | string = name;
+  if (importer) {
     const paths = require.resolve.paths(importer) || [];
     paths.push(path.dirname(importer));
     target = resolveModule(name, paths, state.options.extensions);
